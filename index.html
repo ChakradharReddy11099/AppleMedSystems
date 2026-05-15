@@ -1,0 +1,1623 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AppleMed Systems & Research — Science Beyond Borders</title>
+    <meta name="description" content="AppleMed Systems & Research — Data-driven healthcare consulting, research, and implementation services globally.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --deep-teal-black: #0b1a20;
+            --midnight-surface: #101e25;
+            --dark-elevated: #16252c;
+            --clinical-ice: #f5f7f8;
+            --white-surface: #ffffff;
+            --ice-elevated: #edf1f3;
+            --ink: #11161c;
+            --text-secondary: #3a4045;
+            --text-muted: #697075;
+            --text-dim: #9ba2a6;
+            --analyst-blue: #3b7fba;
+            --analyst-blue-lt: #5a9ed4;
+            --clinical-teal: #2e8b7a;
+            --clinical-teal-lt: #45a893;
+            --brass: #b8954a;
+            --brass-lt: #c9a85e;
+            --brass-muted: #8a7140;
+            --border-light: #dde1e3;
+            --border-dark: #1e2d33;
+            --grain-opacity: 0.025;
+        }
+
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px;
+            background: var(--clinical-ice);
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background-color: var(--clinical-ice);
+            color: var(--ink);
+            line-height: 1.6;
+            overflow-x: hidden;
+            position: relative;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* ─── Grain Texture (very subtle) ─── */
+        .grain-overlay {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 9997;
+            opacity: 0.028;
+            mix-blend-mode: multiply;
+        }
+        .grain-overlay::after {
+            content: '';
+            position: absolute;
+            inset: -200%;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='grain'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.72' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23grain)' opacity='1'/%3E%3C/svg%3E");
+            background-repeat: repeat;
+            background-size: 180px 180px;
+            animation: grainShift 10s steps(3) infinite;
+        }
+        @keyframes grainShift {
+            0%,
+            100% {
+                transform: translate(0, 0);
+            }
+            33% {
+                transform: translate(-2px, 1px);
+            }
+            66% {
+                transform: translate(1px, -2px);
+            }
+        }
+
+        /* ─── Vignette (barely there) ─── */
+        .vignette {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 9996;
+            background: radial-gradient(ellipse at center, transparent 75%, rgba(245,247,248,0.35) 100%);
+        }
+
+        /* ─── Header ─── */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 900;
+            background: rgba(245, 247, 248, 0.92);
+            backdrop-filter: blur(18px);
+            border-bottom: 1px solid var(--border-light);
+            transition: box-shadow 0.4s;
+        }
+        header.scrolled {
+            box-shadow: 0 6px 32px rgba(17, 22, 28, 0.06);
+        }
+        nav {
+            max-width: 1480px;
+            margin: 0 auto;
+            padding: 1.1rem 2.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+        }
+        .logo-wrap {
+            display: flex;
+            flex-direction: column;
+            gap: 0.15rem;
+        }
+        .logo-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--ink);
+            letter-spacing: 0.02em;
+            line-height: 1.1;
+        }
+        .logo-tagline {
+            font-family: 'DM Mono', monospace;
+            font-size: 0.6rem;
+            color: var(--clinical-teal);
+            text-transform: uppercase;
+            letter-spacing: 0.25em;
+            font-weight: 500;
+        }
+        .nav-links {
+            display: flex;
+            gap: 2.6rem;
+            list-style: none;
+            align-items: center;
+        }
+        .nav-links a {
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            text-decoration: none;
+            letter-spacing: 0.05em;
+            transition: color 0.3s;
+            position: relative;
+        }
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 1.5px;
+            background: var(--brass);
+            transition: width 0.4s cubic-bezier(0.25, 0.1, 0.25, 1);
+        }
+        .nav-links a:hover {
+            color: var(--ink);
+        }
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        .nav-cta {
+            background: var(--brass);
+            color: var(--white-surface) !important;
+            padding: 0.55rem 1.6rem;
+            border-radius: 100px;
+            font-size: 0.72rem !important;
+            font-weight: 600 !important;
+            letter-spacing: 0.06em !important;
+            transition: background 0.3s, transform 0.2s !important;
+        }
+        .nav-cta:hover {
+            background: var(--brass-lt);
+            color: var(--white-surface) !important;
+            transform: translateY(-1px);
+        }
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: 1.5px solid var(--ink);
+            color: var(--ink);
+            padding: 0.4rem 1rem;
+            border-radius: 100px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.06em;
+            cursor: pointer;
+        }
+        .nav-links.mobile-visible {
+            display: flex;
+            flex-direction: column;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(20px);
+            padding: 2rem;
+            gap: 1.5rem;
+            border-bottom: 1px solid var(--border-light);
+            z-index: 899;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.06);
+        }
+
+        /* ─── Hero ─── */
+        .hero {
+            min-height: 100vh;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            background: var(--clinical-ice);
+            position: relative;
+            overflow: hidden;
+        }
+        .hero-left {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 10rem 4rem 6rem 5vw;
+            position: relative;
+            z-index: 2;
+        }
+        .hero-eyebrow {
+            font-family: 'DM Mono', monospace;
+            font-size: 0.65rem;
+            letter-spacing: 0.25em;
+            color: var(--clinical-teal);
+            text-transform: uppercase;
+            font-weight: 500;
+            margin-bottom: 2.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .hero-eyebrow::before {
+            content: '';
+            width: 50px;
+            height: 1px;
+            background: var(--clinical-teal);
+            flex-shrink: 0;
+        }
+        .hero-headline {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(3.5rem, 7vw, 7rem);
+            font-weight: 900;
+            color: var(--ink);
+            line-height: 0.92;
+            letter-spacing: -0.03em;
+            margin-bottom: 2.5rem;
+        }
+        .hero-headline em {
+            font-style: italic;
+            color: var(--analyst-blue);
+        }
+        .hero-body {
+            font-size: 1.05rem;
+            color: var(--text-secondary);
+            line-height: 1.75;
+            max-width: 520px;
+            margin-bottom: 3.5rem;
+        }
+        .hero-actions {
+            display: flex;
+            gap: 1.25rem;
+            flex-wrap: wrap;
+        }
+        .btn-primary {
+            background: var(--brass);
+            color: var(--white-surface);
+            padding: 1rem 2.5rem;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.85rem;
+            letter-spacing: 0.08em;
+            border-radius: 100px;
+            transition: background 0.3s, transform 0.2s;
+            border: none;
+        }
+        .btn-primary:hover {
+            background: var(--brass-lt);
+            transform: translateY(-2px);
+        }
+        .btn-outline {
+            background: transparent;
+            color: var(--ink);
+            padding: 1rem 2.5rem;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.85rem;
+            letter-spacing: 0.08em;
+            border: 1.5px solid var(--ink);
+            border-radius: 100px;
+            transition: all 0.3s;
+        }
+        .btn-outline:hover {
+            background: var(--ink);
+            color: var(--white-surface);
+        }
+
+        .hero-right {
+            background: var(--deep-teal-black);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero-right::before {
+            content: '';
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            border-radius: 50%;
+            border: 1px solid rgba(59, 127, 186, 0.12);
+            top: -100px;
+            right: -150px;
+        }
+        .hero-right::after {
+            content: '';
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            border-radius: 50%;
+            border: 1px solid rgba(46, 139, 122, 0.12);
+            bottom: 80px;
+            left: -80px;
+        }
+        .hero-stats {
+            position: relative;
+            z-index: 2;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+        }
+        .hero-stat {
+            padding: 3rem 2.5rem;
+            border-right: 1px solid var(--border-dark);
+            border-bottom: 1px solid var(--border-dark);
+            transition: background 0.3s;
+        }
+        .hero-stat:nth-child(2),
+        .hero-stat:nth-child(4) {
+            border-right: none;
+        }
+        .hero-stat:nth-child(3),
+        .hero-stat:nth-child(4) {
+            border-bottom: none;
+        }
+        .hero-stat:hover {
+            background: rgba(255, 255, 255, 0.025);
+        }
+        .stat-value {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.8rem;
+            font-weight: 900;
+            color: #ffffff;
+            line-height: 1;
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.02em;
+        }
+        .stat-value .counter-suffix {
+            color: var(--analyst-blue);
+            font-size: 0.5em;
+            font-weight: 500;
+        }
+        .stat-desc {
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.5);
+            letter-spacing: 0.04em;
+            line-height: 1.5;
+        }
+
+        /* ─── Clients Bar ─── */
+        .clients-bar {
+            background: var(--white-surface);
+            border-top: 1px solid var(--border-light);
+            border-bottom: 1px solid var(--border-light);
+            padding: 2.5rem 5vw;
+        }
+        .clients-bar-inner {
+            max-width: 1480px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            gap: 3rem;
+            border-left: 2px solid var(--brass);
+            padding-left: 2rem;
+        }
+        .clients-label {
+            font-family: 'DM Mono', monospace;
+            font-size: 0.6rem;
+            text-transform: uppercase;
+            letter-spacing: 0.22em;
+            color: var(--brass-muted);
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+        .clients-list {
+            display: flex;
+            gap: 3.5rem;
+            flex-wrap: wrap;
+        }
+        .client-pill {
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            white-space: nowrap;
+            transition: color 0.3s;
+        }
+        .client-pill:hover {
+            color: var(--analyst-blue);
+        }
+
+        /* ─── Section Base ─── */
+        .section {
+            padding: 9rem 5vw;
+        }
+        .section-inner {
+            max-width: 1480px;
+            margin: 0 auto;
+        }
+        .section-alt {
+            background: var(--deep-teal-black);
+            color: #ffffff;
+        }
+        .section-elevated {
+            background: var(--ice-elevated);
+        }
+        .section-label {
+            font-family: 'DM Mono', monospace;
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.25em;
+            color: var(--clinical-teal);
+            font-weight: 500;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.9rem;
+        }
+        .section-label::before {
+            content: '';
+            width: 40px;
+            height: 1px;
+            background: var(--clinical-teal);
+        }
+        .section-alt .section-label {
+            color: var(--brass);
+        }
+        .section-alt .section-label::before {
+            background: var(--brass);
+        }
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.6rem, 4.5vw, 4.2rem);
+            font-weight: 700;
+            color: var(--ink);
+            line-height: 1.12;
+            letter-spacing: -0.02em;
+            margin-bottom: 1.2rem;
+        }
+        .section-alt .section-title {
+            color: #ffffff;
+        }
+        .section-subtitle {
+            font-size: 1.05rem;
+            color: var(--text-muted);
+            line-height: 1.75;
+            max-width: 680px;
+        }
+        .section-alt .section-subtitle {
+            color: rgba(255, 255, 255, 0.55);
+        }
+        .section-header-block {
+            margin-bottom: 5rem;
+        }
+
+        /* ─── Service Selector ─── */
+        .service-selector-wrapper {
+            margin-top: 2rem;
+        }
+        .service-selector {
+            display: flex;
+            gap: 0;
+            border-top: 1px solid var(--border-light);
+            border-bottom: 1px solid var(--border-light);
+            flex-wrap: wrap;
+        }
+        .service-item {
+            flex: 1;
+            min-width: 150px;
+            padding: 2rem 1.8rem;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.4s cubic-bezier(0.25, 0.1, 0.25, 1);
+            border-right: 1px solid var(--border-light);
+            z-index: 2;
+            background: var(--white-surface);
+        }
+        .service-item:last-child {
+            border-right: none;
+        }
+        .service-item:hover {
+            background: var(--ice-elevated);
+            border-right-color: var(--brass);
+        }
+        .service-item.active {
+            background: var(--ice-elevated);
+            border-right-color: var(--brass);
+            box-shadow: inset 0 0 20px rgba(184, 149, 74, 0.07);
+        }
+        .service-item .svc-number {
+            font-family: 'DM Mono', monospace;
+            font-size: 0.65rem;
+            letter-spacing: 0.3em;
+            color: var(--clinical-teal);
+            transition: color 0.4s ease;
+            display: block;
+            margin-bottom: 0.6rem;
+        }
+        .service-item:hover .svc-number,
+        .service-item.active .svc-number {
+            color: var(--brass);
+        }
+        .service-item .svc-title {
+            font-family: 'Playfair Display', serif;
+            font-weight: 600;
+            font-size: 1.2rem;
+            letter-spacing: 0.02em;
+            color: var(--ink);
+            transition: color 0.4s ease;
+            line-height: 1.2;
+        }
+        .service-description-panel {
+            background: var(--ice-elevated);
+            border-bottom: 1px solid var(--border-light);
+            padding: 2.5rem 2rem;
+            min-height: 100px;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .service-description-content {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+            max-width: 600px;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+        .desc-highlight {
+            color: var(--brass);
+            font-family: 'DM Mono', monospace;
+            font-size: 0.65rem;
+            letter-spacing: 0.25em;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        /* ─── Bento Grid ─── */
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-auto-rows: minmax(160px, auto);
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        .bento-card {
+            background: var(--midnight-surface);
+            border: 1px solid var(--border-dark);
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            overflow: hidden;
+            transition: border-color 0.5s, background 0.5s, box-shadow 0.5s;
+            cursor: pointer;
+        }
+        .bento-card::before {
+            content: '';
+            position: absolute;
+            inset: -1px;
+            border: 1px solid transparent;
+            transition: border-color 0.5s, opacity 0.5s;
+            pointer-events: none;
+            z-index: 2;
+            opacity: 0;
+        }
+        .bento-card:hover::before {
+            border-color: var(--brass-muted);
+            opacity: 1;
+        }
+        .bento-card:hover {
+            background: var(--dark-elevated);
+            border-color: var(--brass-muted);
+            box-shadow: 0 0 50px rgba(184, 149, 74, 0.06), inset 0 0 50px rgba(184, 149, 74, 0.03);
+        }
+        .bento-card .card-num {
+            font-family: 'DM Mono', monospace;
+            font-size: 0.6rem;
+            letter-spacing: 0.3em;
+            color: var(--brass);
+            text-transform: uppercase;
+        }
+        .bento-card h4 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 600;
+            font-size: 1.2rem;
+            color: #ffffff;
+            line-height: 1.3;
+            margin-top: auto;
+        }
+        .bento-card p {
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.5);
+            line-height: 1.6;
+            margin-top: 0.5rem;
+        }
+        .bento-card.card-span-2 {
+            grid-column: span 2;
+        }
+        .bento-card.card-span-row-2 {
+            grid-row: span 2;
+        }
+        .bento-card.card-accent {
+            border-left: 2px solid var(--brass);
+        }
+
+        /* ─── Statement Band ─── */
+        .statement-band {
+            background: var(--deep-teal-black);
+            padding: 7rem 5vw;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            border-top: 1px solid var(--border-dark);
+            border-bottom: 1px solid var(--border-dark);
+        }
+        .statement-band::before {
+            content: 'SCIENCE';
+            font-family: 'Playfair Display', serif;
+            font-size: 22vw;
+            font-weight: 900;
+            color: rgba(255, 255, 255, 0.025);
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            white-space: nowrap;
+            pointer-events: none;
+            letter-spacing: -0.04em;
+        }
+        .statement-inner {
+            position: relative;
+            z-index: 2;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        .statement-inner blockquote {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.8rem, 3.5vw, 3rem);
+            font-weight: 700;
+            color: #ffffff;
+            line-height: 1.3;
+            letter-spacing: -0.02em;
+            margin-bottom: 2.5rem;
+        }
+        .statement-inner p {
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.55);
+            line-height: 1.75;
+            margin-bottom: 2.5rem;
+        }
+        .btn-light {
+            background: var(--brass);
+            color: var(--white-surface);
+            padding: 1rem 2.5rem;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.82rem;
+            letter-spacing: 0.1em;
+            border-radius: 100px;
+            text-transform: uppercase;
+            transition: background 0.3s, transform 0.2s;
+            display: inline-block;
+        }
+        .btn-light:hover {
+            background: var(--brass-lt);
+            transform: translateY(-2px);
+        }
+
+        /* ─── About ─── */
+        .about-grid {
+            display: grid;
+            grid-template-columns: 5fr 4fr;
+            gap: 6rem;
+            align-items: start;
+        }
+        .about-vision-mission {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            margin-bottom: 4rem;
+        }
+        .vm-label {
+            font-family: 'DM Mono', monospace;
+            font-size: 0.6rem;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: var(--clinical-teal);
+            margin-bottom: 0.75rem;
+        }
+        .vm-block h4 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--ink);
+            margin-bottom: 1rem;
+        }
+        .vm-block p {
+            font-size: 0.92rem;
+            color: var(--text-muted);
+            line-height: 1.8;
+        }
+        .leadership-card {
+            background: var(--deep-teal-black);
+            color: #ffffff;
+            padding: 3rem;
+            border-left: 3px solid var(--brass);
+        }
+        .leader-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 0.4rem;
+        }
+        .leader-title {
+            font-family: 'DM Mono', monospace;
+            font-size: 0.65rem;
+            color: var(--brass);
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+        .leader-bio {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.65);
+            line-height: 1.85;
+            margin-bottom: 1.2rem;
+            max-width: 65ch;
+        }
+        .leader-link {
+            display: inline-block;
+            color: var(--brass);
+            text-decoration: none;
+            font-size: 0.82rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            border-bottom: 1px solid rgba(184, 149, 74, 0.5);
+            padding-bottom: 2px;
+            transition: border-color 0.25s, color 0.25s;
+        }
+        .leader-link:hover {
+            color: var(--brass-lt);
+            border-color: var(--brass-lt);
+        }
+        .about-sidebar {
+            padding-top: 2rem;
+        }
+        .sidebar-figure {
+            background: var(--ice-elevated);
+            padding: 4rem 3rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 3rem;
+            border: 1px solid var(--border-light);
+        }
+        .sidebar-figure::before {
+            content: 'AM';
+            font-family: 'Playfair Display', serif;
+            font-size: 9rem;
+            font-weight: 900;
+            color: rgba(17, 22, 28, 0.03);
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+        }
+        .sidebar-figure-text {
+            position: relative;
+            z-index: 2;
+        }
+        .sidebar-figure-text h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2rem;
+            font-weight: 900;
+            color: var(--ink);
+        }
+        .sidebar-figure-text p {
+            font-size: 0.75rem;
+            color: var(--clinical-teal);
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            font-family: 'DM Mono', monospace;
+            margin-top: 0.5rem;
+        }
+
+        /* ─── Global Presence ─── */
+        .presence-header-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 4rem;
+        }
+        .presence-intro {
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.55);
+            line-height: 1.75;
+            max-width: 420px;
+        }
+        .presence-regions {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            border: 1px solid var(--border-dark);
+        }
+        .region-block {
+            padding: 3rem 2.5rem;
+            border-right: 1px solid var(--border-dark);
+            transition: background 0.3s;
+        }
+        .region-block:last-child {
+            border-right: none;
+        }
+        .region-block:hover {
+            background: rgba(255, 255, 255, 0.03);
+        }
+        .region-name {
+            font-family: 'DM Mono', monospace;
+            font-size: 0.62rem;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: var(--brass);
+            margin-bottom: 1.75rem;
+        }
+        .region-cities {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+        .region-cities li {
+            font-size: 0.92rem;
+            color: rgba(255, 255, 255, 0.65);
+        }
+        .region-cities li.hq {
+            color: #ffffff;
+            font-weight: 600;
+        }
+        .region-cities li.hq::after {
+            content: 'HQ';
+            font-family: 'DM Mono', monospace;
+            font-size: 0.5rem;
+            letter-spacing: 0.12em;
+            color: var(--brass);
+            vertical-align: super;
+            margin-left: 0.4rem;
+        }
+
+        /* ─── Research ─── */
+        .research-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+        }
+        .research-card {
+            background: var(--white-surface);
+            padding: 3rem;
+            border: 1px solid var(--border-light);
+            transition: border-color 0.4s, box-shadow 0.4s;
+        }
+        .research-card:hover {
+            border-color: var(--brass);
+            box-shadow: 0 16px 48px rgba(17, 22, 28, 0.06);
+        }
+        .research-card-num {
+            font-family: 'Playfair Display', serif;
+            font-size: 4rem;
+            font-weight: 900;
+            color: rgba(17, 22, 28, 0.04);
+            line-height: 1;
+            margin-bottom: 1.5rem;
+        }
+        .research-card h4 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--ink);
+            margin-bottom: 1rem;
+        }
+        .research-card p {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            line-height: 1.8;
+        }
+
+        /* ─── Contact ─── */
+        .contact-layout {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+        .contact-card {
+            background: var(--white-surface);
+            padding: 3rem 2.5rem;
+            border: 1px solid var(--border-light);
+            transition: border-color 0.4s, transform 0.3s, box-shadow 0.3s;
+        }
+        .contact-card:hover {
+            border-color: var(--brass);
+            transform: translateY(-6px);
+            box-shadow: 0 20px 48px rgba(17, 22, 28, 0.08);
+        }
+        .contact-card-label {
+            font-family: 'DM Mono', monospace;
+            font-size: 0.6rem;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: var(--clinical-teal);
+            margin-bottom: 1.2rem;
+        }
+        .contact-card h4 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--ink);
+            margin-bottom: 0.75rem;
+        }
+        .contact-card p {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            line-height: 1.7;
+            margin-bottom: 2rem;
+        }
+        .contact-card a.card-link {
+            display: inline-block;
+            background: var(--brass);
+            color: var(--white-surface);
+            padding: 0.75rem 2rem;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.8rem;
+            letter-spacing: 0.08em;
+            border-radius: 100px;
+            transition: background 0.3s;
+        }
+        .contact-card a.card-link:hover {
+            background: var(--brass-lt);
+        }
+
+        /* ─── Footer ─── */
+        footer {
+            background: var(--deep-teal-black);
+            padding: 5rem 2rem 3rem;
+            position: relative;
+            overflow: hidden;
+            border-top: 1px solid var(--border-dark);
+        }
+        .footer-wordmark {
+            font-family: 'Playfair Display', serif;
+            font-weight: 900;
+            font-size: clamp(5rem, 16vw, 18rem);
+            letter-spacing: -0.03em;
+            line-height: 0.85;
+            color: transparent;
+            -webkit-text-stroke: 2px var(--border-dark);
+            text-align: center;
+            white-space: nowrap;
+            transition: all 0.6s ease;
+            user-select: none;
+            margin-bottom: 2rem;
+        }
+        .footer-wordmark:hover {
+            -webkit-text-stroke-color: var(--brass-muted);
+            color: rgba(184, 149, 74, 0.04);
+        }
+        .footer-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem 1rem 0;
+            max-width: 1200px;
+            margin: 0 auto;
+            border-top: 1px solid var(--border-dark);
+            font-family: 'DM Mono', monospace;
+            font-size: 0.6rem;
+            letter-spacing: 0.25em;
+            color: rgba(255, 255, 255, 0.3);
+            text-transform: uppercase;
+        }
+
+        /* ─── Animations ─── */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(24px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+        .fade-in.visible {
+            opacity: 1;
+            transform: none;
+        }
+        .stagger-1 {
+            transition-delay: 0.1s;
+        }
+        .stagger-2 {
+            transition-delay: 0.2s;
+        }
+        .stagger-3 {
+            transition-delay: 0.3s;
+        }
+        .stagger-4 {
+            transition-delay: 0.4s;
+        }
+        .stagger-5 {
+            transition-delay: 0.5s;
+        }
+        .stagger-6 {
+            transition-delay: 0.6s;
+        }
+
+        /* ─── Responsive ─── */
+        @media (max-width: 1100px) {
+            .hero {
+                grid-template-columns: 1fr;
+                min-height: auto;
+            }
+            .hero-left {
+                padding: 7rem 2rem 4rem;
+            }
+            .hero-right {
+                min-height: 400px;
+            }
+            .bento-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .bento-card.card-span-2 {
+                grid-column: span 2;
+            }
+            .bento-card.card-span-row-2 {
+                grid-row: span 2;
+            }
+            .about-grid {
+                grid-template-columns: 1fr;
+                gap: 4rem;
+            }
+            .presence-regions {
+                grid-template-columns: 1fr 1fr;
+            }
+            .region-block:nth-child(2) {
+                border-right: none;
+            }
+            .region-block:nth-child(1),
+            .region-block:nth-child(2) {
+                border-bottom: 1px solid var(--border-dark);
+            }
+            .research-grid {
+                grid-template-columns: 1fr;
+            }
+            .contact-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            .mobile-menu-btn {
+                display: block;
+            }
+            .bento-grid {
+                grid-template-columns: 1fr;
+            }
+            .bento-card.card-span-2,
+            .bento-card.card-span-row-2 {
+                grid-column: span 1;
+                grid-row: span 1;
+            }
+            .hero-stats {
+                grid-template-columns: 1fr 1fr;
+            }
+            .service-selector {
+                flex-direction: column;
+            }
+            .service-item {
+                border-right: none !important;
+                border-bottom: 1px solid var(--border-light);
+            }
+            .service-item:last-child {
+                border-bottom: none;
+            }
+            .presence-regions {
+                grid-template-columns: 1fr;
+            }
+            .region-block {
+                border-right: none !important;
+                border-bottom: 1px solid var(--border-dark);
+            }
+            .presence-header-row {
+                flex-direction: column;
+                gap: 2rem;
+                align-items: flex-start;
+            }
+            .footer-wordmark {
+                font-size: clamp(3rem, 12vw, 6rem);
+                -webkit-text-stroke-width: 1px;
+            }
+            .footer-meta {
+                flex-direction: column;
+                gap: 0.8rem;
+                text-align: center;
+            }
+        }
+        @media (max-width: 500px) {
+            .footer-wordmark {
+                font-size: 12vw;
+                -webkit-text-stroke-width: 1px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Grain & Vignette -->
+    <div class="grain-overlay" aria-hidden="true"></div>
+    <div class="vignette" aria-hidden="true"></div>
+
+    <!-- Header -->
+    <header id="header">
+        <nav>
+            <div class="logo-wrap">
+                <div class="logo-name">AppleMed Systems &amp; Research</div>
+                <div class="logo-tagline">Science Beyond Borders</div>
+            </div>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#expertise">Expertise</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact" class="nav-cta">Schedule Meeting</a></li>
+            </ul>
+            <button class="mobile-menu-btn" id="mobileMenuBtn">Menu</button>
+        </nav>
+    </header>
+
+    <!-- Hero -->
+    <section id="home" class="hero">
+        <div class="hero-left">
+            <div class="hero-eyebrow fade-in">Healthcare Transformation</div>
+            <h1 class="hero-headline fade-in stagger-1">Science<br><em>Beyond</em><br>Borders</h1>
+            <p class="hero-body fade-in stagger-2">We transform healthcare through data-driven research, strategic innovation, and proven implementation expertise — delivering measurable impact from insights to action across the globe.</p>
+            <div class="hero-actions fade-in stagger-3">
+                <a href="https://calendly.com/healthdataanalyst/30min" target="_blank" class="btn-primary">Schedule Consultation</a>
+                <a href="#services" class="btn-outline">Our Expertise</a>
+            </div>
+        </div>
+        <div class="hero-right">
+            <div class="hero-stats">
+                <div class="hero-stat fade-in stagger-1">
+                    <div class="stat-value"><span class="counter-number" data-target="13" data-suffix="+">13</span><span class="counter-suffix">+</span></div>
+                    <div class="stat-desc">Years Global Experience</div>
+                </div>
+                <div class="hero-stat fade-in stagger-2">
+                    <div class="stat-value"><span class="counter-number" data-target="25" data-suffix="+">25</span><span class="counter-suffix">+</span></div>
+                    <div class="stat-desc">Patents Supported</div>
+                </div>
+                <div class="hero-stat fade-in stagger-3">
+                    <div class="stat-value"><span class="counter-number" data-target="2" data-suffix="M+">2</span><span class="counter-suffix">M+</span></div>
+                    <div class="stat-desc">Population Impacted</div>
+                </div>
+                <div class="hero-stat fade-in stagger-4">
+                    <div class="stat-value"><span class="counter-number" data-target="4" data-suffix="">4</span></div>
+                    <div class="stat-desc">International Regions</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Clients Bar -->
+    <div class="clients-bar">
+        <div class="clients-bar-inner">
+            <div class="clients-label">Serving</div>
+            <div class="clients-list">
+                <span class="client-pill">Government Agencies</span>
+                <span class="client-pill">Public Health Ministries</span>
+                <span class="client-pill">Healthcare Systems</span>
+                <span class="client-pill">Non-Profits &amp; FQHCs</span>
+                <span class="client-pill">Research Institutions</span>
+                <span class="client-pill">Innovation Centers</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Services (Interactive Selector) -->
+    <section id="services" class="section">
+        <div class="section-inner">
+            <div class="section-header-block">
+                <div class="section-label fade-in">Our Capabilities</div>
+                <h2 class="section-title fade-in stagger-1">Comprehensive<br>Healthcare Solutions</h2>
+                <p class="section-subtitle fade-in stagger-2">Select a service to explore how we bridge innovation and operational excellence.</p>
+            </div>
+            <div class="service-selector-wrapper">
+                <div class="service-selector" id="serviceSelector">
+                    <div class="service-item active" data-service="0">
+                        <span class="svc-number">01</span>
+                        <span class="svc-title">Discovery &amp; Design</span>
+                    </div>
+                    <div class="service-item" data-service="1">
+                        <span class="svc-number">02</span>
+                        <span class="svc-title">Data &amp; Analytics</span>
+                    </div>
+                    <div class="service-item" data-service="2">
+                        <span class="svc-number">03</span>
+                        <span class="svc-title">Implementation</span>
+                    </div>
+                    <div class="service-item" data-service="3">
+                        <span class="svc-number">04</span>
+                        <span class="svc-title">Impact Measurement</span>
+                    </div>
+                    <div class="service-item" data-service="4">
+                        <span class="svc-number">05</span>
+                        <span class="svc-title">Capacity Building</span>
+                    </div>
+                    <div class="service-item" data-service="5">
+                        <span class="svc-number">06</span>
+                        <span class="svc-title">Partnerships</span>
+                    </div>
+                </div>
+                <div class="service-description-panel" id="serviceDescriptionPanel">
+                    <div class="service-description-content" id="serviceDescriptionContent">
+                        <span class="desc-highlight">● Active Engagement</span>
+                        Human-centered research, feasibility assessment, and prototype development leveraging advanced analytics and AI-enabled insights to ensure market viability and real-world applicability.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Bento Grid (Expertise) -->
+    <section id="expertise" class="section section-alt">
+        <div class="section-inner">
+            <div class="section-header-block">
+                <div class="section-label fade-in">Domain Expertise</div>
+                <h2 class="section-title fade-in stagger-1">Specialized Knowledge<br>Across Healthcare</h2>
+                <p class="section-subtitle fade-in stagger-2">Nine disciplines — structured for impact.</p>
+            </div>
+            <div class="bento-grid">
+                <div class="bento-card card-span-2 card-accent">
+                    <span class="card-num">01</span>
+                    <h4>Product Innovation</h4>
+                    <p>Concept to market support for healthcare products and services.</p>
+                </div>
+                <div class="bento-card">
+                    <span class="card-num">02</span>
+                    <h4>Data Strategy</h4>
+                    <p>Enterprise analytics infrastructure at scale.</p>
+                </div>
+                <div class="bento-card">
+                    <span class="card-num">03</span>
+                    <h4>Public Health</h4>
+                    <p>Government and non-profit program optimization.</p>
+                </div>
+                <div class="bento-card card-span-row-2">
+                    <span class="card-num">04</span>
+                    <h4>Digital Health</h4>
+                    <p>Technology-enabled care delivery models.</p>
+                </div>
+                <div class="bento-card">
+                    <span class="card-num">05</span>
+                    <h4>Performance</h4>
+                    <p>Operational efficiency and quality improvement.</p>
+                </div>
+                <div class="bento-card card-span-2">
+                    <span class="card-num">06</span>
+                    <h4>Implementation Science</h4>
+                    <p>Evidence-based deployment and scale-up.</p>
+                </div>
+                <div class="bento-card">
+                    <span class="card-num">07</span>
+                    <h4>AI &amp; Analytics</h4>
+                    <p>Machine learning solutions for healthcare.</p>
+                </div>
+                <div class="bento-card">
+                    <span class="card-num">08</span>
+                    <h4>Policy Advisory</h4>
+                    <p>Evidence into policy frameworks.</p>
+                </div>
+                <div class="bento-card card-accent">
+                    <span class="card-num">09</span>
+                    <h4>Global Health</h4>
+                    <p>Cross-border solutions and partnerships.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Statement Band -->
+    <div class="statement-band">
+        <div class="statement-inner">
+            <blockquote class="fade-in">Trusted Partner for Government Agencies &amp; Healthcare Organizations Worldwide</blockquote>
+            <p class="fade-in stagger-1">Our evidence-based approach, rigorous methodology, and commitment to transparency make us the ideal partner for sustainable, large-scale impact.</p>
+            <a href="https://calendly.com/healthdataanalyst/30min" target="_blank" class="btn-light fade-in stagger-2">Schedule a Consultation</a>
+        </div>
+    </div>
+
+    <!-- About -->
+    <section id="about" class="section">
+        <div class="section-inner">
+            <div class="section-label fade-in">Who We Are</div>
+            <h2 class="section-title fade-in stagger-1">About AppleMed</h2>
+            <p class="section-subtitle fade-in stagger-2" style="margin-bottom: 5rem;">A global health consulting and research firm committed to transforming healthcare through data-driven insights, innovative design, and practical implementation.</p>
+            <div class="about-grid">
+                <div class="about-left">
+                    <div class="about-vision-mission">
+                        <div class="vm-block fade-in">
+                            <div class="vm-label">Vision</div>
+                            <h4>An Equitable World</h4>
+                            <p>Where preventive and primary healthcare innovations improve lives globally.</p>
+                        </div>
+                        <div class="vm-block fade-in stagger-1">
+                            <div class="vm-label">Mission</div>
+                            <h4>Evidence Into Action</h4>
+                            <p>To provide evidence-based, data-driven solutions that turn ideas into impactful programs.</p>
+                        </div>
+                    </div>
+                    <div class="leadership-card fade-in stagger-2">
+                        <div class="leader-name">Rajesh Sirigireddy, MSHI</div>
+                        <div class="leader-title">Executive Public Health Consultant<br>Digital Health &amp; AI Strategist</div>
+                        <p class="leader-bio">Rajesh is a global public health leader with over 13 years of experience bridging data science, innovation, and implementation. He specializes in public health strategy, AI-powered analytics, and evidence-driven program design.</p>
+                        <p class="leader-bio">Throughout his career, Rajesh has guided organizations and innovators through the complete journey from concept to market — conducting feasibility studies, developing prototypes, leading pilot implementations, and supporting scaled deployment.</p>
+                        <p class="leader-bio">Rajesh combines rigorous research methodology with system-level strategic thinking and human-centered design to create solutions that are both innovative and practical.</p>
+                        <a href="https://www.linkedin.com/in/rajeshsirigireddy/" target="_blank" class="leader-link">Connect on LinkedIn</a>
+                    </div>
+                </div>
+                <div class="about-sidebar">
+                    <div class="sidebar-figure fade-in">
+                        <div class="sidebar-figure-text">
+                            <h3>AppleMed</h3>
+                            <p>Systems &amp; Research</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Global Presence -->
+    <section class="section section-alt">
+        <div class="section-inner">
+            <div class="presence-header-row">
+                <div>
+                    <div class="section-label fade-in">Global Presence</div>
+                    <h2 class="section-title fade-in stagger-1">Operating Across<br>Three Continents</h2>
+                </div>
+                <p class="presence-intro fade-in stagger-2">Nine strategic locations spanning the Americas, Europe, and Asia-Pacific.</p>
+            </div>
+            <div class="presence-regions fade-in stagger-1">
+                <div class="region-block">
+                    <div class="region-name">Americas</div>
+                    <ul class="region-cities">
+                        <li>Fremont, California</li>
+                        <li>Sacramento, California</li>
+                        <li>Austin, Texas</li>
+                    </ul>
+                </div>
+                <div class="region-block">
+                    <div class="region-name">Asia Pacific — India</div>
+                    <ul class="region-cities">
+                        <li class="hq">Hyderabad, India</li>
+                        <li>Chennai, India</li>
+                        <li>Pulivendula, India</li>
+                    </ul>
+                </div>
+                <div class="region-block">
+                    <div class="region-name">Europe</div>
+                    <ul class="region-cities">
+                        <li>Frankfurt, Germany</li>
+                    </ul>
+                </div>
+                <div class="region-block">
+                    <div class="region-name">Oceania</div>
+                    <ul class="region-cities">
+                        <li>Auckland, New Zealand</li>
+                        <li>Wellington, New Zealand</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Research -->
+    <section id="research" class="section section-elevated">
+        <div class="section-inner">
+            <div class="section-header-block">
+                <div class="section-label fade-in">Research Excellence</div>
+                <h2 class="section-title fade-in stagger-1">Research Focus Areas</h2>
+                <p class="section-subtitle fade-in stagger-2">Generating evidence that informs program design, product development, and scalable healthcare solutions.</p>
+            </div>
+            <div class="research-grid">
+                <div class="research-card fade-in stagger-1">
+                    <div class="research-card-num">01</div>
+                    <h4>Preventive Care &amp; Health Promotion</h4>
+                    <p>Designing and evaluating interventions that prevent disease and strengthen community health.</p>
+                </div>
+                <div class="research-card fade-in stagger-2">
+                    <div class="research-card-num">02</div>
+                    <h4>Primary Healthcare Innovation</h4>
+                    <p>Strengthening first-contact care through innovative service delivery models and digital tools.</p>
+                </div>
+                <div class="research-card fade-in stagger-3">
+                    <div class="research-card-num">03</div>
+                    <h4>Health Equity &amp; Access</h4>
+                    <p>Addressing disparities in healthcare access and outcomes for underserved populations.</p>
+                </div>
+                <div class="research-card fade-in stagger-4">
+                    <div class="research-card-num">04</div>
+                    <h4>Data Systems &amp; Digital Health</h4>
+                    <p>Building analytics platforms and digital health infrastructure using AI.</p>
+                </div>
+                <div class="research-card fade-in stagger-1">
+                    <div class="research-card-num">05</div>
+                    <h4>Implementation Science</h4>
+                    <p>Studying how innovations move from research to practice and scaled solutions.</p>
+                </div>
+                <div class="research-card fade-in stagger-2">
+                    <div class="research-card-num">06</div>
+                    <h4>Policy Translation</h4>
+                    <p>Converting research findings into actionable policy recommendations.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact" class="section">
+        <div class="section-inner">
+            <div class="section-header-block">
+                <div class="section-label fade-in">Get In Touch</div>
+                <h2 class="section-title fade-in stagger-1">Let's Connect</h2>
+                <p class="section-subtitle fade-in stagger-2">Choose the best way to reach us.</p>
+            </div>
+            <div class="contact-layout">
+                <div class="contact-card fade-in stagger-1">
+                    <div class="contact-card-label">Email</div>
+                    <h4>Send a Message</h4>
+                    <p>We respond within 24 hours.</p>
+                    <a href="mailto:healthdataanalyst@gmail.com" class="card-link">Send Email</a>
+                </div>
+                <div class="contact-card fade-in stagger-2">
+                    <div class="contact-card-label">Calendar</div>
+                    <h4>Book a Meeting</h4>
+                    <p>Reserve a 30-minute consultation.</p>
+                    <a href="https://calendly.com/healthdataanalyst/30min" target="_blank" class="card-link">Book Now</a>
+                </div>
+                <div class="contact-card fade-in stagger-3">
+                    <div class="contact-card-label">LinkedIn</div>
+                    <h4>Professional Network</h4>
+                    <p>Connect directly with Rajesh Sirigireddy.</p>
+                    <a href="https://www.linkedin.com/in/rajeshsirigireddy/" target="_blank" class="card-link">Connect</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-wordmark">APPLEMED</div>
+        <div class="footer-meta">
+            <span>© 2025 AppleMed Systems &amp; Research Pvt. Ltd.</span>
+            <span>Science Beyond Borders</span>
+            <span>All Rights Reserved</span>
+        </div>
+    </footer>
+
+    <script>
+        (function() {
+            // ─── HEADER SCROLL ─────────────────────────
+            const header = document.getElementById('header');
+            window.addEventListener('scroll', () => {
+                header.classList.toggle('scrolled', window.scrollY > 50);
+            });
+
+            // ─── MOBILE MENU TOGGLE ────────────────────
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            const navLinks = document.getElementById('navLinks');
+            mobileMenuBtn.addEventListener('click', () => {
+                navLinks.classList.toggle('mobile-visible');
+            });
+            navLinks.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    navLinks.classList.remove('mobile-visible');
+                });
+            });
+
+            // ─── SMOOTH SCROLL ─────────────────────────
+            document.querySelectorAll('a[href^="#"]').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        e.preventDefault();
+                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                });
+            });
+
+            // ─── SERVICE SELECTOR ──────────────────────
+            const serviceItems = document.querySelectorAll('.service-item');
+            const descriptionContent = document.getElementById('serviceDescriptionContent');
+            const serviceDescriptions = [
+                `<span class="desc-highlight">● Active Engagement</span>Human-centered research, feasibility assessment, and prototype development leveraging advanced analytics and AI-enabled insights to ensure market viability and real-world applicability.`,
+                `<span class="desc-highlight">● Active Engagement</span>Custom analytics platforms, automated reporting frameworks, and predictive modeling that transform complex data into actionable intelligence for strategic decision-making.`,
+                `<span class="desc-highlight">● Active Engagement</span>Full-spectrum support from pilot design through operational deployment, including regulatory navigation, stakeholder engagement, and commercialization strategies.`,
+                `<span class="desc-highlight">● Active Engagement</span>Rigorous evaluation frameworks, cost-effectiveness analysis, and evidence synthesis that drive policy decisions and demonstrate measurable health outcomes.`,
+                `<span class="desc-highlight">● Active Engagement</span>Comprehensive organizational development programs that strengthen internal capabilities, build technical expertise, and foster sustainable knowledge transfer.`,
+                `<span class="desc-highlight">● Active Engagement</span>Facilitating high-impact collaborations, alliance management, and ecosystem development that amplify reach and create synergies across sectors.`
+            ];
+
+            serviceItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    const index = parseInt(this.getAttribute('data-service'));
+                    serviceItems.forEach(si => si.classList.remove('active'));
+                    this.classList.add('active');
+                    if (descriptionContent && serviceDescriptions[index]) {
+                        descriptionContent.style.opacity = '0';
+                        descriptionContent.style.transform = 'translateY(8px)';
+                        setTimeout(() => {
+                            descriptionContent.innerHTML = serviceDescriptions[index];
+                            descriptionContent.style.opacity = '1';
+                            descriptionContent.style.transform = 'translateY(0)';
+                        }, 150);
+                    }
+                });
+            });
+
+            // ─── COUNTER ANIMATION ──────────────────────
+            const counterNumbers = document.querySelectorAll('.counter-number');
+            let countersAnimated = false;
+
+            function animateCounter(el, target) {
+                const duration = 2200;
+                const startTime = performance.now();
+                const isFloat = target % 1 !== 0;
+                const startVal = 0;
+
+                function update(now) {
+                    const elapsed = now - startTime;
+                    const progress = Math.min(elapsed / duration, 1);
+                    const eased = 1 - Math.pow(1 - progress, 3);
+                    const current = startVal + (target - startVal) * eased;
+                    el.textContent = isFloat ? current.toFixed(1) : Math.floor(current);
+                    if (progress < 1) {
+                        requestAnimationFrame(update);
+                    } else {
+                        el.textContent = isFloat ? target.toFixed(1) : target;
+                    }
+                }
+                requestAnimationFrame(update);
+            }
+
+            const countersObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting && !countersAnimated) {
+                        countersAnimated = true;
+                        counterNumbers.forEach(el => {
+                            const target = parseFloat(el.getAttribute('data-target'));
+                            animateCounter(el, target);
+                        });
+                        countersObserver.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.4 });
+
+            const heroStatsContainer = document.querySelector('.hero-stats');
+            if (heroStatsContainer) {
+                countersObserver.observe(heroStatsContainer);
+            }
+
+            // ─── FADE IN OBSERVER ──────────────────────
+            const fadeObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        fadeObserver.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1, rootMargin: '0px 0px -20px 0px' });
+
+            document.querySelectorAll('.fade-in').forEach(el => fadeObserver.observe(el));
+
+            console.log('%cAppleMed %cClinical Ink + Brass %c· %cReady',
+                'font-family:serif;font-size:1.3em;color:#b8954a;',
+                'color:#11161c;',
+                'color:#697075;',
+                'color:#2e8b7a;');
+        })();
+    </script>
+</body>
+</html>
